@@ -29,3 +29,9 @@ To configure antivirus please go to the the MIME Blocker configuration page Site
 
 ## Note
 To see wether  antivirus is successfully installed go to the Plugins page in Administration > Site Administration > Plugins > Plugins overview lists all installed plugins, together with the version number,release, availability (enabled or disabled) and settings link
+
+## Release logs
+
+### Version 2019082904
+- Validate input MIME types in setting page with Moodle core MIME types
+- Ignore course backup MIME in code as this MIME not added in Moodle core

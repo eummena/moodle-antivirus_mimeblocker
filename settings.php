@@ -27,10 +27,11 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($ADMIN->fulltree) {
+    require_once(__DIR__ . '/classes/adminlib.php');
     require_once(__DIR__ . '/classes/scanner.php');
 
     // Allowed mimetypes.
-    $settings->add(new admin_setting_configtextarea(
+    $settings->add(new antivirus_mimeblocker_allowedmimetypes(
             'antivirus_mimeblocker/allowedmimetypes', new lang_string('allowedmimetypes', 'antivirus_mimeblocker'),
             new lang_string('allowedmimetypesdesc', 'antivirus_mimeblocker'), ''));
 }
