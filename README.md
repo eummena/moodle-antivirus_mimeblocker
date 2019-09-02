@@ -33,5 +33,5 @@ To see wether  antivirus is successfully installed go to the Plugins page in Adm
 ## Release logs
 
 ### Version 2019082904
-- Validate input MIMI types in setting page with Moodle core MIME types
+- Validate input MIME types in setting page with Moodle core MIME types
 - Ignore course backup MIME in code as this MIME not added in Moodle core
