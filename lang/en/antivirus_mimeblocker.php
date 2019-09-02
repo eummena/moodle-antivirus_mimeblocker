@@ -32,5 +32,5 @@ $string['allowedmimetypes'] = 'Allowed mime types';
 $string['allowedmimetypesdesc'] =
         'Provide a list of allowed mimetypes separated by ";". For example: "text/xml;image/png;application/pdf"';
 $string['virusfound'] = ' You can only upload one of the following file types : {$a->types}.';
-$string['invalidtypes'] = 'The provided list contain invailed types';
+$string['invalidtypes'] = 'The provided list contain invalid types';
 
