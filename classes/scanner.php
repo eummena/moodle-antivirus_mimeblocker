@@ -97,7 +97,7 @@ class scanner extends \core\antivirus\scanner {
             $detected_mimetype = 'text/plain';
         }
 
-        if ($detected_mimetype == 'application/x-gzip') {
+        if ($detected_mimetype == 'application/x-gzip' || $detected_mimetype == 'application/gzip') {
             $detected_mimetype = 'application/vnd.moodle.backup';
         }
 
