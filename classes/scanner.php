@@ -38,9 +38,9 @@ defined('MOODLE_INTERNAL') || die();
 class scanner extends \core\antivirus\scanner {
 
     /**
-     * @var string A semicolon separated string of allowed mimetypes.
+     * @var string A semicolon separated string of allowed or denyed mimetypes.
      */
-    public $allowed_mimetypes;
+    public $configuredmimetypes;
 
     /**
      * Class constructor.
@@ -49,8 +49,8 @@ class scanner extends \core\antivirus\scanner {
      */
     public function __construct() {
         parent::__construct();
-        // create array of allowed mimetypes based on config setting
-        $this->allowed_mimetypes = explode(";", trim($this->get_config('allowedmimetypes')));
+        // Create array of allowed mimetypes based on config setting.
+        $this->configuredmimetypes = explode(";", trim($this->get_config('mimetypes')));
     }
 
     /**
@@ -59,8 +59,8 @@ class scanner extends \core\antivirus\scanner {
      * @return bool True if all necessary config settings been entered.
      */
     public function is_configured() {
-        if ($this->get_config('allowedmimetypes') != '') {
-            return (bool) $this->allowed_mimetypes;
+        if ($this->get_config('mimetypes') != '') {
+            return (bool) $this->configuredmimetypes;
         }
         return false;
     }
@@ -91,40 +91,40 @@ class scanner extends \core\antivirus\scanner {
             return self::SCAN_RESULT_FOUND;
         }
 
-        $detected_mimetype = null;
+        $detectedmimetype = null;
         // Check mimetype using php functions.
         if (function_exists('finfo_file')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $detected_mimetype = finfo_file($finfo, $file);
+            $detectedmimetype = finfo_file($finfo, $file);
             finfo_close($finfo);
         } else if (function_exists('mime_content_type')) {
             // Deprecated, only when finfo isn't available.
             debugging("Note finfo_file() php function not available, falling back to depracated mime_content_type()");
-            $detected_mimetype = mime_content_type($file);
+            $detectedmimetype = mime_content_type($file);
         }
 
         // MoodleNet compatibility, Ignore course backup file.
-        if ($detected_mimetype == 'inode/x-empty' && pathinfo($file, PATHINFO_EXTENSION) == 'log') {
-            $detected_mimetype = 'text/plain';
+        if ($detectedmimetype == 'inode/x-empty' && pathinfo($file, PATHINFO_EXTENSION) == 'log') {
+            $detectedmimetype = 'text/plain';
         }
 
-        if ($detected_mimetype == 'application/x-gzip' || $detected_mimetype == 'application/gzip') {
-            $detected_mimetype = 'application/vnd.moodle.backup';
+        if ($detectedmimetype == 'application/x-gzip' || $detectedmimetype == 'application/gzip') {
+            $detectedmimetype = 'application/vnd.moodle.backup';
         }
 
         // Check if result is in the array of allowed mimetypes.
-        $return = in_array($detected_mimetype, $this->allowed_mimetypes);
+        $return = in_array($detectedmimetype, $this->configuredmimetypes);
         if ($return == $scanmode[0]) {
             return self::SCAN_RESULT_OK;
         } else if ($return == $scanmode[1]) {
-            // MIME type not allowed! custom exception will be throw and not return back at \core\antivirus\manager::scan_file
+            // MIME type not allowed! custom exception will be throw and not return back at \core\antivirus\manager::scan_file.
             unlink($file);
             require_once('mimeblocker_exception.php');
             if ($scanmodeconfig == "allow") {
-                throw new mimeblocker_exception('virusfoundallow', '', ['types' => self::get_allowed_file_extensions()]);
+                throw new mimeblocker_exception('virusfoundallow', '', ['types' => self::get_file_extensions()]);
             }
             if ($scanmodeconfig == "deny") {
-                throw new mimeblocker_exception('virusfounddeny', '', ['types' => self::get_allowed_file_extensions()]);
+                throw new mimeblocker_exception('virusfounddeny', '', ['types' => self::get_file_extensions()]);
             }
         }
 
@@ -153,19 +153,18 @@ class scanner extends \core\antivirus\scanner {
     }
 
     /**
-     * To get comma separate extension on the basis of allowed MIME types configure by administrator.
+     * To get comma separate extension on the basis of allowed or denxed MIME types configure by administrator.
      *
      * @return string types of allowed extensions based on allowed MIME types.
      */
-    public function get_allowed_file_extensions() {
+    public function get_file_extensions() {
 
         $extensions = [];
 
-        foreach ($this->allowed_mimetypes as $mime) {
+        foreach ($this->configuredmimetypes as $mime) {
             array_push($extensions, ...self::extension_filter($mime));
         }
 
         return implode(", ", $extensions);
     }
 }
-    

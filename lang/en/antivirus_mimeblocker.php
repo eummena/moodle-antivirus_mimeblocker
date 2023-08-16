@@ -24,18 +24,18 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Tasos Koutoumanos <tk@eummena.org>
  */
+$string['invalidtypes'] = 'The provided list contains invalid types';
+$string['mimetypes'] = 'Mimetypes';
+$string['mimetypesdesc'] =
+        'Provide a list of configured mimetypes to handle separated by ";". For example: "text/xml;image/png;application/pdf"';
 $string['pluginname'] = 'Mime Blocker antivirus';
 $string['privacy:metadata'] = 'The Mime Blocker antivirus plugin does not store any personal data.';
 $string['quarantinedir'] = 'Quarantine directory';
-$string['unknownerror'] = 'There was an unknown error with Mime Blocker.';
-$string['allowedmimetypes'] = 'Allowed mime types';
-$string['allowedmimetypesdesc'] =
-        'Provide a list of allowed mimetypes separated by ";". For example: "text/xml;image/png;application/pdf"';
-$string['virusfoundallow'] = ' You can only upload one of the following file types : {$a->types}.';
-$string['virusfounddeny'] = ' You can not upload one of the following file types : {$a->types}.';
-$string['invalidtypes'] = 'The provided list contains invalid types';
 $string['scanmode'] = 'Choose scanmode';
 $string['scanmodedesc'] = 'Choose between two modi. Allow-Mode: all Mimetypes listed below will be accepted. 
         Deny-Mode: all below listed Mimetypes will be blocked.';
 $string['scanmodeallow'] = 'Allow-Mode';
 $string['scanmodedeny'] = 'Deny-Mode';
+$string['unknownerror'] = 'There was an unknown error with Mime Blocker.';
+$string['virusfoundallow'] = ' You can only upload one of the following file types : {$a->types}.';
+$string['virusfounddeny'] = ' You can not upload one of the following file types : {$a->types}.';

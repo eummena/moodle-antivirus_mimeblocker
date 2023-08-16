@@ -42,6 +42,6 @@ if ($ADMIN->fulltree) {
 
     // Mimetypes.
     $settings->add(new antivirus_mimeblocker_allowedmimetypes(
-            'antivirus_mimeblocker/allowedmimetypes', new lang_string('allowedmimetypes', 'antivirus_mimeblocker'),
-            new lang_string('allowedmimetypesdesc', 'antivirus_mimeblocker'), ''));
+            'antivirus_mimeblocker/mimetypes', new lang_string('mimetypes', 'antivirus_mimeblocker'),
+            new lang_string('mimetypesdesc', 'antivirus_mimeblocker'), ''));
 }
