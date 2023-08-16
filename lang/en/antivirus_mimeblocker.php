@@ -31,6 +31,11 @@ $string['unknownerror'] = 'There was an unknown error with Mime Blocker.';
 $string['allowedmimetypes'] = 'Allowed mime types';
 $string['allowedmimetypesdesc'] =
         'Provide a list of allowed mimetypes separated by ";". For example: "text/xml;image/png;application/pdf"';
-$string['virusfound'] = ' You can only upload one of the following file types : {$a->types}.';
+$string['virusfoundallow'] = ' You can only upload one of the following file types : {$a->types}.';
+$string['virusfounddeny'] = ' You can not upload one of the following file types : {$a->types}.';
 $string['invalidtypes'] = 'The provided list contains invalid types';
-
+$string['scanmode'] = 'Choose scanmode';
+$string['scanmodedesc'] = 'Choose between two modi. Allow-Mode: all Mimetypes listed below will be accepted. 
+        Deny-Mode: all below listed Mimetypes will be blocked.';
+$string['scanmodeallow'] = 'Allow-Mode';
+$string['scanmodedeny'] = 'Deny-Mode';

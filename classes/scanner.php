@@ -80,6 +80,17 @@ class scanner extends \core\antivirus\scanner {
             return self::SCAN_RESULT_FOUND;
         }
 
+        // Set scanmode.
+        $scanmodeconfig = self::get_config('scanmode');
+        $scanmode = [];
+        if ($scanmodeconfig == "allow") {
+            $scanmode = [true, false];
+        } else if ($scanmodeconfig == "deny") {
+            $scanmode = [false, true]; // Switch scanmode.
+        } else {
+            return self::SCAN_RESULT_FOUND;
+        }
+
         $detected_mimetype = null;
         // Check mimetype using php functions.
         if (function_exists('finfo_file')) {
@@ -103,13 +114,18 @@ class scanner extends \core\antivirus\scanner {
 
         // Check if result is in the array of allowed mimetypes.
         $return = in_array($detected_mimetype, $this->allowed_mimetypes);
-        if ($return == 1) {
+        if ($return == $scanmode[0]) {
             return self::SCAN_RESULT_OK;
-        } else if ($return == 0) {
+        } else if ($return == $scanmode[1]) {
             // MIME type not allowed! custom exception will be throw and not return back at \core\antivirus\manager::scan_file
             unlink($file);
             require_once('mimeblocker_exception.php');
-            throw new mimeblocker_exception('virusfound', '', ['types' => self::get_allowed_file_extensions()]);
+            if ($scanmodeconfig == "allow") {
+                throw new mimeblocker_exception('virusfoundallow', '', ['types' => self::get_allowed_file_extensions()]);
+            }
+            if ($scanmodeconfig == "deny") {
+                throw new mimeblocker_exception('virusfounddeny', '', ['types' => self::get_allowed_file_extensions()]);
+            }
         }
 
         return $return;
