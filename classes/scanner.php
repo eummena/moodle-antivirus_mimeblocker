@@ -88,7 +88,7 @@ class scanner extends \core\antivirus\scanner {
             finfo_close($finfo);
         } else if (function_exists('mime_content_type')) {
             // Deprecated, only when finfo isn't available.
-            debugging("Note finfo_file() php function not available, falling back to depracated mime_content_type()");
+            debugging("Note finfo_file() php function not available, falling back to deprecated mime_content_type()");
             $detected_mimetype = mime_content_type($file);
         }
 
@@ -120,7 +120,7 @@ class scanner extends \core\antivirus\scanner {
      * To identify extension of the MIME type.
      *
      * @param string MIME type
-     * @return array MIME type extention
+     * @return array MIME type extension
      */
     public static function extension_filter($mime) {
         $types = \core_filetypes::get_types();
