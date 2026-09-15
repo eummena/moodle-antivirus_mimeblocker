@@ -41,18 +41,20 @@ class antivirus_mimeblocker_allowedmimetypes extends admin_setting_configtextare
     }
 
     /**
-     * Validate the contents of the textarea as JSON
+     * Validate the contents of the textarea as a ";"-separated list of syntactically valid MIME types.
      *
-     * @param string $data allowed MIME types string
+     * Types do not have to be known to Moodle's file type registry, since in deny mode
+     * the types to block are typically ones Moodle does not register (e.g. executables).
+     *
+     * @param string $data MIME types string
      * @return mixed bool true for success or string:error on failure
      */
     public function validate($data) {
-        $types = \core_filetypes::get_types();
         if ($data) {
-            $allowed_mimetypes = explode(";", trim($data));
-            foreach ($allowed_mimetypes as $mimetype) {
-                if (!self::extension_filter($types, $mimetype)) {
-                    return get_string('invalidtypes', 'antivirus_mimeblocker');
+            $mimetypes = explode(";", trim($data));
+            foreach ($mimetypes as $mimetype) {
+                if (!self::is_valid_mimetype($mimetype)) {
+                    return get_string('invalidtypes', 'antivirus_mimeblocker', $mimetype);
                 }
             }
         }
@@ -60,23 +62,14 @@ class antivirus_mimeblocker_allowedmimetypes extends admin_setting_configtextare
     }
 
     /**
-     * Check if MIME type is valid
+     * Check if a string has the form of a MIME type (type/subtype, RFC 2045 token characters).
      *
-     * @param array $types
-     * @param array $mime
-     * @return mixed array of extensions if MIME type is valid or FALSE if it's invalid
+     * Wildcards are rejected because the scanner matches configured types exactly.
+     *
+     * @param string $mime
+     * @return bool
      */
-    public function extension_filter($types, $mime) {
-        $extensions = [];
-        foreach ($types as $key => $type) {
-            if ($type['type'] === $mime) {
-                $extensions[] = $key;
-            }
-        }
-        if (count($extensions)) {
-            return $extensions;
-        }
-        return false;
+    public static function is_valid_mimetype($mime) {
+        return (bool) preg_match('~^[a-z0-9!#$&^_.+-]+/[a-z0-9!#$&^_.+-]+$~i', $mime);
     }
-
 }

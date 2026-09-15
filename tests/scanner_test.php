@@ -292,4 +292,28 @@ final class scanner_test extends \advanced_testcase {
         $result = $scanner->scan_file($this->tempfile, 'backup.mbz');
         $this->assertEquals(scanner::SCAN_RESULT_OK, $result);
     }
+
+    /**
+     * The user-facing message lists extensions for types Moodle knows, and falls
+     * back to the MIME type string for types not in Moodle's file type registry
+     * (e.g. executables configured in deny mode).
+     */
+    public function test_get_file_extensions_falls_back_to_mimetype(): void {
+        $scanner = $this->create_scanner_mock(
+            'application/x-dosexec',
+            'deny',
+            'application/pdf;application/x-dosexec;application/x-msdownload'
+        );
+
+        $this->assertEquals(
+            'pdf, application/x-dosexec, application/x-msdownload',
+            $scanner->get_file_extensions()
+        );
+
+        // The blocked-upload message must not end up with an empty type list.
+        $this->assertEquals(scanner::SCAN_RESULT_FOUND, $scanner->scan_file($this->tempfile, 'setup.exe'));
+        $message = $scanner->get_virus_found_message();
+        $this->assertEquals('virusfounddeny', $message['string']);
+        $this->assertStringContainsString('application/x-dosexec', $message['placeholders']['types']);
+    }
 }

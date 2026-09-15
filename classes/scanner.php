@@ -186,7 +186,8 @@ class scanner extends \core\antivirus\scanner {
         $extensions = [];
 
         foreach ($this->configuredmimetypes as $mime) {
-            array_push($extensions, ...self::extension_filter($mime));
+            // Types unknown to Moodle's file type registry have no extensions; show the MIME type itself.
+            array_push($extensions, ...(self::extension_filter($mime) ?: [$mime]));
         }
 
         return implode(", ", $extensions);

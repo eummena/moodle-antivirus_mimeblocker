@@ -24,7 +24,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author     Tasos Koutoumanos <tk@eummena.org>
  */
-$string['invalidtypes'] = 'The provided list contains invalid types';
+$string['invalidtypes'] = 'The provided list contains an invalid MIME type: "{$a}". Expected format: type/subtype, e.g. "application/pdf".';
 $string['mimetypes'] = 'Mimetypes';
 $string['mimetypesdesc'] =
         'Provide a list of configured mimetypes to handle separated by ";". For example: "text/xml;image/png;application/pdf"';
