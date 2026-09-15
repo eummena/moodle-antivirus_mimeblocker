@@ -67,7 +67,7 @@ final class scanner_test extends \advanced_testcase {
             ['scanmode', $scanmode],
             ['mimetypes', $mimetypes],
         ];
-        $antivirus->method('get_config')->will($this->returnValueMap($configmap));
+        $antivirus->method('get_config')->willReturnMap($configmap);
 
         // Reinitialise the configured mimetypes from the mocked config via reflection,
         // since the property is protected.
@@ -97,7 +97,7 @@ final class scanner_test extends \advanced_testcase {
             ['scanmode', $scanmode],
             ['mimetypes', $mimetypes],
         ];
-        $antivirus->method('get_config')->will($this->returnValueMap($configmap));
+        $antivirus->method('get_config')->willReturnMap($configmap);
 
         $reflection = new \ReflectionProperty($antivirus, 'configuredmimetypes');
         $reflection->setValue($antivirus, explode(';', trim($mimetypes)));
