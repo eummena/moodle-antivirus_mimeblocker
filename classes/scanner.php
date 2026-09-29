@@ -97,10 +97,6 @@ class scanner extends \core\antivirus\scanner {
             $detected_mimetype = 'text/plain';
         }
 
-        if ($detected_mimetype == 'application/x-gzip' || $detected_mimetype == 'application/gzip') {
-            $detected_mimetype = 'application/vnd.moodle.backup';
-        }
-
         // Check if result is in the array of allowed mimetypes.
         $return = in_array($detected_mimetype, $this->allowed_mimetypes);
         if ($return == 1) {
