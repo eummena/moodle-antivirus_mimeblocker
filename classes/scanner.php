@@ -107,7 +107,6 @@ class scanner extends \core\antivirus\scanner {
             return self::SCAN_RESULT_OK;
         } else if ($return == 0) {
             // MIME type not allowed! custom exception will be throw and not return back at \core\antivirus\manager::scan_file
-            unlink($file);
             require_once('mimeblocker_exception.php');
             throw new mimeblocker_exception('virusfound', '', ['types' => self::get_allowed_file_extensions()]);
         }
