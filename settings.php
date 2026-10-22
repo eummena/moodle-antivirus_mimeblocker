@@ -30,8 +30,20 @@ if ($ADMIN->fulltree) {
     require_once(__DIR__ . '/classes/adminlib.php');
     require_once(__DIR__ . '/classes/scanner.php');
 
-    // Allowed mimetypes.
+    // Scanmode.
+    $settings->add(new admin_setting_configselect(
+        'antivirus_mimeblocker/scanmode',
+        new lang_string('scanmode', 'antivirus_mimeblocker'),
+        new lang_string('scanmodedesc', 'antivirus_mimeblocker'),
+        'deny',
+        [
+            'allow' => new lang_string('scanmodeallow', 'antivirus_mimeblocker'),
+            'deny' => new lang_string('scanmodedeny', 'antivirus_mimeblocker'),
+        ]
+    ));
+
+    // Mimetypes.
     $settings->add(new antivirus_mimeblocker_allowedmimetypes(
-            'antivirus_mimeblocker/allowedmimetypes', new lang_string('allowedmimetypes', 'antivirus_mimeblocker'),
-            new lang_string('allowedmimetypesdesc', 'antivirus_mimeblocker'), ''));
+            'antivirus_mimeblocker/mimetypes', new lang_string('mimetypes', 'antivirus_mimeblocker'),
+            new lang_string('mimetypesdesc', 'antivirus_mimeblocker'), ''));
 }
